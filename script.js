@@ -13,30 +13,25 @@ var FoodItem = function(name, calories, vegan, glutenFree, citrusFree) {
 }
 
 
-var chicken = new FoodItem('chicken', 200, false, true, true);
-var rice = new FoodItem('rice', 500, true, false, true);
-var beans = new FoodItem('beans', 300, true, true, true);
-var tortilla = new FoodItem('tortilla', 100, true, false, true)
-
+var chicken = new FoodItem('Chicken', 200, false, true, true);
+var rice = new FoodItem('Rice', 500, true, false, true);
+var beans = new FoodItem('Beans', 300, true, true, true);
+var tortilla = new FoodItem('Tortilla', 100, true, false, true);
+var veggieMedly = new FoodItem('Veggie medly', 200, true, true, true);
+var beef = new FoodItem('Beef', 400, false, true, true);
+var asparagus = new FoodItem('Asparagus', 200, true, true, true);
+var potatos = new FoodItem('Potatos', 400, true, true, true);
+var caviar = new FoodItem('Caviar', 1500, false, true, true);
+var co2 = new FoodItem('Carbon Dioxide', 0, true, true, true);
+var sugar = new FoodItem('All the sugar', 1000, true, true, true);
+var toxicStuff = new FoodItem('Toxic Stuff', 50, true, true, true);
+var childTears = new FoodItem('Tears of children', 20, true, true, true);
 //============================== foodItem controls ==============================//
         
 FoodItem.prototype.toString = function() {
 
-    return this.name + ' has ' + this.calories + ' calories. Is ' + this.name + ' vegan? ' + this.vegan + '. Is ' + this.name + ' gluten-free? ' + this.glutenFree + '. Is ' + this.name + ' citrus-free? ' + this.citrusFree
+    return this.name + ' has ' + this.calories + ' calories. Is ' + this.name + ' vegan? ' + this.vegan + '. Is ' + this.name + ' gluten-free? ' + this.glutenFree + '. Is ' + this.name + 'citrus-free? ' + this.citrusFree
 }
-
-var pasta = new FoodItem('pasta', 1000, true, false, true);
-
-var chickenFriedSteak = new FoodItem('Chicken Fried Steak', 1600, false, false, true);
-
-var chickenDesc = chicken.toString();
-var pastaDesc = pasta.toString();
-var chickenFriedSteakDesc = chickenFriedSteak.toString();
-
-// console.log(pizzaDesc);
-// console.log(pastaDesc);
-// console.log(chickenFriedSteakDesc);
-
 
 //============================== drink controls ==============================//
         
@@ -48,7 +43,7 @@ var Drink = function(name, description, price, ingredients) {
     this.ingredients = ingredients;
 }
 
-var coke = new Drink('Coke', 'Bubbly goodness', 240, ['C02', 'All the Sugar', 'Toxic Stuff', 'Children\'s tears']);
+var coke = new Drink('Coke', 'Bubbly goodness', 240, [co2, sugar, toxicStuff, childTears]);
 
 // adding .toString(); method to Drink proto
 Drink.prototype.toString = function() {
@@ -67,16 +62,26 @@ var Plate = function(name, description, price, ingredients) {
     this.ingredients = ingredients;    
 }
 
-var comboOne = new Plate('Combo One', 'Classic chicken dish', 300, ['chicken', 'beans', 'rice', 'tortilla'])
+var comboOne = new Plate('Combo One', 'Classic chicken dish', 300, [chicken, beans, rice, tortilla])
 
-var comboTwo = new Plate('Combo Two', 'Classic veggie dish', 200, ['Veggie Medly', 'Rice', 'Beans', 'Tortilla'])
+// var test = comboOne.ingredients.join(' ');
 
-var comboThree = new Plate('Combo Three', 'Classic beef dish', 400, ['Beef', 'Potatos', 'Asparagus', 'Caviar']);
+// console.log(test);
+
+var comboTwo = new Plate('Combo Two', 'Classic veggie dish', 200, [veggieMedly, rice, beans, tortilla])
+
+var comboThree = new Plate('Combo Three', 'Classic beef dish', 400, [beef, potatos, asparagus, caviar]);
 
 // Add toString(); method to Plate proto
 Plate.prototype.toString = function() {
+    var arr = []
+    var ingredients = this.ingredients
 
-    return "Name: " + this.name + ": " + this.description + "\nIngredients: " + this.ingredients.join(', ') + "\nPrice = " + this.price + "$";
+    for (var i = 0; i < ingredients.length; i++) {
+        arr.push(ingredients[i].name)
+
+    }
+    return "Name: " + this.name + " Description: " + this.description + " Ingredients: " + arr.join(', ') + " Price = " + this.price + "$";
 }
 
 Plate.prototype.isVegan = function(){
@@ -149,7 +154,7 @@ Order.prototype.toString = function() {
         arr.push( this.plates[i].toString() );
     }
 
-    return arr.join(' ');
+    return arr;
 }
 
 
@@ -179,15 +184,35 @@ Menu.prototype.toString = function() {
 Menu.prototype.create = function() {
 
     var arr = [];
-    var menuItem;
-    var plates = this.plates
+    var itemName;
+    var itemDescription;
+    var itemIngredients;
+    var itemPrice;
+    var plates = this.plates;
     
+
     // Loop over plates    
     for (var i = 0; i < plates.length; i++) {
-        
-        menuItem = plates[i];
+        var container = $('<div class="item-container"></div>')
 
-        arr.push( $('<p class="menu-item clearfix"></p>').text(menuItem) );
+        itemName = plates[i].name;
+        itemDescription = plates[i].description;
+
+        itemIngredients = plates[i].ingredients.map(function(obj){
+
+            return obj.name;
+        });
+
+        itemPrice = plates[i].price;
+    
+        // Need to append seperate p tags into a container to make line breaks using \n in toString method with white space pre does not allow proper word wrap
+
+        container.append( $('<p class="menu-item"></p>').text(itemName) )
+        container.append( $('<p class="menu-item"></p>').text(itemDescription) )
+        container.append( $('<p class="menu-item"></p>').text(itemIngredients.join(', ') ) )
+        container.append( $('<p class="menu-item"></p>').text(itemPrice + '$') )
+
+        arr.push( container );
     }
 
     return arr;
@@ -215,12 +240,13 @@ Restaurant.prototype.create = function() {
 
     // Restaurant Name
     var restText = this.name;
+    var restTitle = $('<h1></h1>').text(restText)
 
     // Array of menuItem objects
     var menuObjects = this.menu.create();
 
     //Create restaurant container
-    var theRestaurant = $('<div class = "restaurant"></div>');
+    var theRestaurant = $('<div class = "restaurant clearfix"></div>');
 
     // Loop thru each menuItem in the array of objects that menu.create(); returns
     for (var i = 0; i < menuObjects.length; i++) {
@@ -228,7 +254,7 @@ Restaurant.prototype.create = function() {
         theRestaurant.append(menuObjects[i]);
     }
 
-    theRestaurant.prepend(restText);
+    theRestaurant.prepend(restTitle);
 
     $('body').append(theRestaurant);
 }

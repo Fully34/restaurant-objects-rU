@@ -1,11 +1,26 @@
 .menu-item {
-
-    white-space: pre;
-    word-wrap: break-word;
-    max-width: 200px;
+    
+    word-break: break-word;
+    position: relative;
 }
 
 .clearfix {
     overflow: hidden;
     z-index: 10;
+}
+
+.restaurant {
+    max-width: 730px;
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.item-container {
+    border: 1px dashed black;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    width: 350px;
+    display: inline-block;
+    position: relative;
 }
