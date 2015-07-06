@@ -1,0 +1,11 @@
+.menu-item {
+
+    white-space: pre;
+    word-wrap: break-word;
+    max-width: 200px;
+}
+
+.clearfix {
+    overflow: hidden;
+    z-index: 10;
+}
