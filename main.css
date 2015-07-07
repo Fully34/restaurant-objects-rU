@@ -1,5 +1,5 @@
 .menu-item {
-    
+    height: 2em;
     word-break: break-word;
     position: relative;
 }
@@ -10,7 +10,7 @@
 }
 
 .restaurant {
-    max-width: 730px;
+    width: 750px;
     position: relative;
     text-align: center;
     margin: 0 auto;
@@ -19,8 +19,32 @@
 .item-container {
     border: 1px dashed black;
     margin-bottom: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
     border-radius: 10px;
     width: 350px;
     display: inline-block;
     position: relative;
+}
+
+.highlight {
+
+    background-color: peachpuff;
+}
+
+.price-container {
+    display: inline-block;
+    border: 2px solid black;
+    position: relative;
+    height: 50px;
+    width: 25%;
+}
+
+.price {
+    position: absolute;
+    margin: 0 auto;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 23%;
+
 }
