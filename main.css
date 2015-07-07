@@ -1,14 +1,10 @@
-.menu-item {
-    height: 2em;
-    word-break: break-word;
-    position: relative;
-}
-
+/*utility*/
 .clearfix {
     overflow: hidden;
     z-index: 10;
 }
 
+/*Main container*/
 .restaurant {
     width: 750px;
     position: relative;
@@ -16,6 +12,7 @@
     margin: 0 auto;
 }
 
+/*Menu items*/
 .item-container {
     border: 1px dashed black;
     margin-bottom: 10px;
@@ -27,11 +24,13 @@
     position: relative;
 }
 
-.highlight {
-
-    background-color: peachpuff;
+.menu-item {
+    height: 2em;
+    word-break: break-word;
+    position: relative;
 }
 
+/*price stuff*/
 .price-container {
     display: inline-block;
     border: 2px solid black;
@@ -46,5 +45,10 @@
     top: 50%;
     transform: translateY(-50%);
     left: 23%;
+}
 
+/*dynamic highlight class*/
+.highlight {
+
+    background-color: peachpuff;
 }

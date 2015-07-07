@@ -12,7 +12,7 @@ var FoodItem = function(name, calories, vegan, glutenFree, citrusFree) {
     this.citrusFree = citrusFree;
 }
 
-
+// Instantiate all food Items we will be using
 var chicken = new FoodItem('Chicken', 200, false, true, true);
 var rice = new FoodItem('Rice', 500, true, false, true);
 var beans = new FoodItem('Beans', 300, true, true, true);
@@ -132,11 +132,18 @@ var comboThree = new Plate('comboThree', 'Combo Three', 'Classic beef dish', 400
 // Add toString(); method to Plate proto
 Plate.prototype.toString = function() {
 
+    // Initialize empty array
     var arr = []
+
+    // reference ingredients array
     var ingredients = this.ingredients
 
+    // loop through ingredients
     for (var i = 0; i < ingredients.length; i++) {
 
+        // Only want to print out the names of the ingredients, not the whole food Item object contents
+            // If we just pushed ingredients[i], the join(); method in the return statement below would join the entire object together as a string
+            // This is also because we have overwritten the native .toString(); method for our objects and .join(); uses the toString(); method
         arr.push(ingredients[i].name)
     }
 
@@ -201,13 +208,15 @@ Plate.prototype.isCitrusFree = function(){
 }
 
 //============================== order control ==============================//
-        
+
+// We don't even use this...        
 var Order = function(plates) {
 
     this.plates = plates;
 }
 
 var myOrder = new Order([comboOne, comboTwo, comboThree])
+
 
 Order.prototype.toString = function() {
 
@@ -230,10 +239,12 @@ var Menu = function(plates) {
     this.plates = plates;  
 }
 
+//Initialize a menu variable
 var myMenu = new Menu([comboOne, comboTwo, comboThree, coke]);
 
 Menu.prototype.toString = function() {
 
+    // Initialize empty array
     var arr = [];
 
     // Loop over plates
@@ -247,12 +258,13 @@ Menu.prototype.toString = function() {
 
 Menu.prototype.create = function() {
 
+    // Initialize variables
     var arr = [];
     var itemName;
     var itemDescription;
     var itemIngredients;
     var itemPrice;
-    var plates = this.plates;
+    var plates = this.plates; // -> array
     
 
     // Loop over plates    
@@ -340,39 +352,33 @@ var Customer = function(vegan, glutenFree, citrusFree, restaurant) {
     this.restaurant = restaurant;
 }
 
+// Initialize customers
 var newCustomer = new Customer(false, true, true, myRestaurant)
 var oldCustomer = new Customer(true, false, true, myRestaurant)
 
+// Create method on Customer proto, adds highlight class to plates that match the customer's preferences
 Customer.prototype.preference = function(){
 
     // create array for plates
     var menu = this.restaurant.menu;
 
-    var check = menu.plates[0].isVegan();
-
-
-
+    // loop through plates
     for (var i = 0; i < menu.plates.length; i++) {
 
         // Need to reset for each iteration or else they wont work
         var vegan = true;
         var glutenFree = true;
         var citrusFree = true;
-
-        // debugger;
-
         var plate = menu.plates[i];
 
         if ( (this.vegan) && ( menu.plates[i].isVegan() === false ) ) {
 
             vegan = false;
-
         }
 
         if ( (this.glutenFree) && ( menu.plates[i].isGlutenFree() === false) ) {
 
             glutenFree = false;
-
         }
 
         if ( (this.citrusFree) && ( menu.plates[i].isCitrusFree() === false) ) {
@@ -388,6 +394,7 @@ Customer.prototype.preference = function(){
     }
 }
 
+// Reset the highlight
 var reset = function(){
 
     $('.restaurant').children().removeClass('highlight');
@@ -398,22 +405,34 @@ var reset = function(){
 
 // adding total tracker
 var total = 0
+
+// Initialize variables for the price box
 var priceContainer = $('<div class="price-container clearfix"></div>')
 var price = $('<h3 class="price"></h3>')
+
+// Append the price box -> Starts empty
 $('.restaurant').append(priceContainer)
 priceContainer.append(price)
 
+// click handler
 $('body').on('click', '.item-container', function(){
 
-    // var confirmation = confirm('Are you sure you want to order ' + this.firstChild.text() + '?')
+    // Create variables for each click event
     var name = $(this.firstChild).text()
     var confirmation = confirm("Are you sure you want " + name + "?");
     
 
     //================= conditional functionality ==================//
+
     if( confirmation ){
+
+        // Find price of each plate
         var price = $(this.lastChild).text()
+
+        // change text into an int
         total += parseInt(price, 10)
+
+        // append the text 
         $('.price').text('Total = ' + total + '$')
     }    
 })
